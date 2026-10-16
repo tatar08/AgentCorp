@@ -88,9 +88,10 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     experimental: true,
   },
   gemini_local: {
-    label: "Gemini CLI",
+    label: "Gemini",
     description: "Gemini CLI harness",
     icon: Gem,
+    recommended: true,
   },
   grok_local: {
     label: "Grok Build",

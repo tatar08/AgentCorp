@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "packageName": "@paperclipai/skills-catalog",
   "packageVersion": "0.3.1",
-  "generatedAt": "2026-10-06T01:21:47.421Z",
+  "generatedAt": "2026-10-16T06:45:31.330Z",
   "skills": [
     {
       "id": "paperclipai:bundled:docs:doc-maintenance",
@@ -317,14 +317,14 @@
         {
           "path": "assets/template-mobile.svg",
           "kind": "asset",
-          "sizeBytes": 925,
-          "sha256": "dc32af257df1f986b87a7b30a6104de825057dc4d6f12b381f5a28308f0002f0"
+          "sizeBytes": 946,
+          "sha256": "ee8841865f83c2d44b39899b3b877fc3a25f85e90cab1acbefc56fac92d4f83d"
         },
         {
           "path": "assets/template.svg",
           "kind": "asset",
-          "sizeBytes": 1262,
-          "sha256": "63f8adb8eb4b21dea6fd442b9e9312704c419535eb577d4ef0bfb54410fd576b"
+          "sizeBytes": 1286,
+          "sha256": "a21daf45a4b4908a5d2eeafee44a4dd34543762b1cb4f3cb5b6be390e6ef23c9"
         },
         {
           "path": "references/components.md",
@@ -345,7 +345,7 @@
           "sha256": "017260d2216859d57e5fa869e0efc6b88c7ed4d8a8a4f5af04fe89a3ef2445bd"
         }
       ],
-      "contentHash": "sha256:7106d84fc9db2053090f692706e41cfc586e7dd85a44f568e3319c4eefbdde46"
+      "contentHash": "sha256:928d669a795126a890884d50a2e5efe387ae39b080386114fcc881892ed64a47"
     },
     {
       "id": "paperclipai:bundled:quality:qa-acceptance",

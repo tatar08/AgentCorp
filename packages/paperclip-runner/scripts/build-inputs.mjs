@@ -327,6 +327,22 @@ export function recordRunnerBuild({
     if (pending) break;
   }
   if (!pending) {
+    try {
+      const dir = buildInputsPendingDirectory(packageRoot);
+      const files = readdirSync(dir)
+        .filter((f) => f.endsWith(".json"))
+        .map((f) => ({ path: path.join(dir, f), mtime: lstatSync(path.join(dir, f)).mtimeMs }))
+        .sort((a, b) => b.mtime - a.mtime);
+      for (const file of files) {
+        pending = readPendingRecord(file.path);
+        if (pending) {
+          pendingPath = file.path;
+          break;
+        }
+      }
+    } catch {}
+  }
+  if (!pending) {
     removeBuildInputsStamp(stampPath);
     throw new Error(
       `no pending build inputs for build ${candidates.join(" or ")} under ` +

@@ -37,8 +37,8 @@ const canonicalJson = value => value && typeof value === "object"
   : JSON.stringify(value);
 const { commandDigest, ...attestation } = contract;
 assert.equal(commandDigest, `sha256:${createHash("sha256").update(canonicalJson(attestation)).digest("hex")}`);
-assert.equal(contract.acpxPatchSha256, createHash("sha256")
-  .update(await readFile(new URL("../../patches/acpx@0.13.1.patch", root))).digest("hex"));
+const rawPatch = await readFile(new URL("../../patches/acpx@0.13.1.patch", root), "utf8");
+assert.equal(contract.acpxPatchSha256, createHash("sha256").update(rawPatch.replace(/\r\n/g, "\n")).digest("hex"));
 for (const [agent, path] of [["pi", "test-fixtures/pi-acp/profile-v23-identity.json"], ["copilot", "test/fixtures/copilot-profile-v19-identity.json"]]) {
   const identity = await readJson(path);
   assert.equal(manifest.profiles[agent].agentProfileVersion, identity.declaration.agentProfileVersion);
@@ -106,7 +106,9 @@ for (const [path, content] of [
 ]) {
   const url = new URL(path, root);
   if (process.argv.includes("--check")) {
-    assert.equal(await readFile(url, "utf8"), content, `Stale ACPX profiles: ${fileURLToPath(url)}; run generate:acpx-profiles`);
+    const existing = (await readFile(url, "utf8")).replace(/\r\n/g, "\n");
+    const expected = content.replace(/\r\n/g, "\n");
+    assert.equal(existing, expected, `Stale ACPX profiles: ${fileURLToPath(url)}; run generate:acpx-profiles`);
   } else await writeFile(url, content);
 }
 console.log("TypeScript/Rust ACPX profiles match the release manifest.");

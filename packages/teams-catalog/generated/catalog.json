@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "packageName": "@paperclipai/teams-catalog",
   "packageVersion": "0.1.0",
-  "generatedAt": "2026-10-08T10:35:56.448Z",
+  "generatedAt": "2026-10-16T06:42:15.431Z",
   "teams": [
     {
       "id": "paperclipai:bundled:company-defaults:core-exec-team",
@@ -433,8 +433,8 @@
         {
           "path": "LICENSE",
           "kind": "other",
-          "sizeBytes": 1069,
-          "sha256": "7f8a27f0979bded50e240caa8c8c29f3088ddf87032cb83e5a9732bff91d18b4"
+          "sizeBytes": 1090,
+          "sha256": "526e937d673d264af663f53d3be7118c59840810097d492e1550b363a5c91000"
         },
         {
           "path": "README.md",
@@ -445,7 +445,7 @@
       ],
       "trustLevel": "assets",
       "compatibility": "compatible",
-      "contentHash": "sha256:e723a036948dcb292382fbcb116c68500c2247b004d0a8d8ef818b6725f91215"
+      "contentHash": "sha256:ebac22017ee783cfa0e5b6dafc0cde4d57b575cf612ab408906ac604f04147d5"
     },
     {
       "id": "paperclipai:optional:content:content-machine",

@@ -216,6 +216,7 @@ function adapterConfigHasAnthropicApiKey(config: Record<string, unknown>): boole
  */
 const MODEL_SOURCE_BRAND_MARKS: Record<string, string> = {
   claude_local: "/brands/claude-color.svg",
+  gemini_local: "/brands/adapters/gemini-color.svg",
 };
 
 
@@ -253,6 +254,7 @@ const MODEL_SOURCE_INLINE_MARKS: Record<string, ComponentType<{ className?: stri
 const API_KEY_ENV_KEYS: Record<string, string> = {
   claude_local: ANTHROPIC_API_KEY_ENV_KEY,
   codex_local: "OPENAI_API_KEY",
+  gemini_local: "GEMINI_API_KEY",
 };
 
 function apiKeyEnvKeyFor(adapterType: string): string {
@@ -2313,6 +2315,74 @@ function OnboardingWizardInner({
     }
   }
 
+  async function handleSkipForNow() {
+    const targetCompanyId = createdCompanyId || companies[0]?.id;
+    if (!targetCompanyId) {
+      setError("Please create or select an organization first.");
+      return;
+    }
+    if (!createdCompanyId) {
+      setCreatedCompanyId(targetCompanyId);
+      createdCompanyIdRef.current = targetCompanyId;
+      const matched = companies.find((c) => c.id === targetCompanyId);
+      if (matched?.issuePrefix) setCreatedCompanyPrefix(matched.issuePrefix);
+    }
+    setLoading(true);
+    setError(null);
+    try {
+      const hireName = agentName.trim() || AGENT_ROLE_LABELS[agentRole] || "JARVIS";
+      const chosenAdapter = adapterType && adapterType !== "process" ? adapterType : "gemini_local";
+      const hireAdapterConfig = buildAdapterConfig();
+
+      const existingAgents = await agentsApi.list(targetCompanyId).catch(() => null);
+      const existing = existingAgents?.find(
+        (agent) => agent.name.trim().toLowerCase() === hireName.toLowerCase()
+      );
+
+      if (existing) {
+        setCreatedAgentId(existing.id);
+        setAgentAppearance(resolveAgentAppearance(existing.appearance, existing.id));
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.agents.list(targetCompanyId),
+        });
+        setStep(5);
+        return;
+      }
+
+      const hire = await agentsApi.hire(targetCompanyId, {
+        name: hireName,
+        appearance: agentAppearance,
+        role: agentRole,
+        adapterType: chosenAdapter,
+        adapterConfig: hireAdapterConfig,
+        onboardingFirstAgent: true,
+        runtimeConfig: buildNewAgentRuntimeConfig(),
+      });
+
+      if (hire.approval) {
+        await approvalsApi.approve(
+          hire.approval.id,
+          "Approved during onboarding first-agent setup."
+        );
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.approvals.list(targetCompanyId),
+        });
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.agents.list(targetCompanyId),
+      });
+
+      setCreatedAgentId(hire.agent.id);
+      setStep(5);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create agent");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
   async function handleUnsetAnthropicApiKey() {
     if (!createdCompanyId || unsetAnthropicLoading) return;
     setUnsetAnthropicLoading(true);
@@ -2742,6 +2812,7 @@ function OnboardingWizardInner({
                         id: opt.type,
                         label: CONNECT_SOURCE_NAMES[opt.type] ?? opt.label,
                         icon: <ModelSourceMark type={opt.type} Fallback={opt.icon} />,
+                        credentialMode: opt.type === "gemini_local" ? "api" : undefined,
                       }))}
                       mode={credentialMode}
                       selectedId={
@@ -2757,9 +2828,14 @@ function OnboardingWizardInner({
                         autoConnectStartedRef.current = false;
                         setSourcePicked(true);
                         setAdapterType(id);
-                        if (id !== adapterType) setRunner("auto");
+                        if (id === "gemini_local") {
+                          setCredentialMode("api");
+                          setModel(DEFAULT_GEMINI_LOCAL_MODEL);
+                        } else if (id !== adapterType) {
+                          setRunner("auto");
+                        }
                         if (id === "opencode_local") setModel(DEFAULT_OPENCODE_LOCAL_MODEL);
-                        else if (id !== "codex_local") setModel("");
+                        else if (id !== "codex_local" && id !== "gemini_local") setModel("");
                         setConnectPhase("collapsing");
                       }}
                     />
@@ -2786,8 +2862,18 @@ function OnboardingWizardInner({
                       }}
                       transition={{ opacity: SOURCE_LINK_EXIT, height: MAKE_ROOM }}
                     >
-                      <div className="-ml-3 mt-1">
-                        <CredentialModeLink mode={credentialMode} onChange={setCredentialMode} />
+                      <div className="-ml-3 mt-1 flex flex-col gap-2">
+                        <div className="flex items-center justify-between">
+                          <CredentialModeLink mode={credentialMode} onChange={setCredentialMode} />
+                          <button
+                            type="button"
+                            disabled={loading}
+                            onClick={() => void handleSkipForNow()}
+                            className="px-3 py-2 text-xs text-muted-foreground hover:text-foreground underline underline-offset-4 cursor-pointer disabled:opacity-50"
+                          >
+                            {loading ? "Setting up..." : "Skip for now →"}
+                          </button>
+                        </div>
                         {savedKeys.options.length > 0 && <p className="px-3 text-sm text-muted-foreground">{savedKeys.options.length} saved API {savedKeys.options.length === 1 ? "key available" : "keys available"}.</p>}
                         {credentialMode === "subscription" && authSignalStatus === "present" && <p className="px-3 text-sm text-muted-foreground">An existing provider connection is available.</p>}
                       </div>
