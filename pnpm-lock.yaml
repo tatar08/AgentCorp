@@ -19,7 +19,7 @@ patchedDependencies:
     hash: riqgguivxjxydoydnzpedjy5au
     path: patches/@agentclientprotocol__claude-agent-acp@0.73.0.patch
   '@agentclientprotocol/codex-acp@1.6.2':
-    hash: ilkykmzaax6atpgtip6bxikv6i
+    hash: 2iynuypg76nxmydiylgtffhr7e
     path: patches/@agentclientprotocol__codex-acp@1.6.2.patch
   '@chat-adapter/discord@4.39.0':
     hash: nywlhls7dd4npegrgax7jqdbxa
@@ -202,7 +202,7 @@ importers:
     dependencies:
       '@agentclientprotocol/codex-acp':
         specifier: ^1.6.2
-        version: 1.6.2(patch_hash=ilkykmzaax6atpgtip6bxikv6i)
+        version: 1.6.2(patch_hash=2iynuypg76nxmydiylgtffhr7e)
       '@paperclipai/adapter-utils':
         specifier: workspace:*
         version: link:../../adapter-utils
@@ -505,7 +505,7 @@ importers:
         version: 0.73.0(patch_hash=riqgguivxjxydoydnzpedjy5au)(@anthropic-ai/sdk@0.129.0(zod@4.6.5))(@modelcontextprotocol/sdk@1.31.0(zod@4.6.5))
       '@agentclientprotocol/codex-acp':
         specifier: 1.6.2
-        version: 1.6.2(patch_hash=ilkykmzaax6atpgtip6bxikv6i)
+        version: 1.6.2(patch_hash=2iynuypg76nxmydiylgtffhr7e)
       '@openai/codex':
         specifier: 0.160.0
         version: 0.160.0
@@ -532,8 +532,8 @@ importers:
         version: 1.9.1
     optionalDependencies:
       '@github/copilot-darwin-arm64':
-        specifier: 1.0.88
-        version: 1.0.88
+        specifier: 1.0.96
+        version: 1.0.96
       '@github/copilot-darwin-x64':
         specifier: 1.0.88
         version: 1.0.88
@@ -892,7 +892,7 @@ importers:
         version: 0.73.0(patch_hash=riqgguivxjxydoydnzpedjy5au)(@anthropic-ai/sdk@0.129.0(zod@4.4.3))(@modelcontextprotocol/sdk@1.31.0(zod@4.4.3))
       '@agentclientprotocol/codex-acp':
         specifier: 1.6.2
-        version: 1.6.2(patch_hash=ilkykmzaax6atpgtip6bxikv6i)
+        version: 1.6.2(patch_hash=2iynuypg76nxmydiylgtffhr7e)
       '@ai-sdk/amazon-bedrock':
         specifier: 5.0.113
         version: 5.0.113(zod@4.4.3)
@@ -1093,8 +1093,8 @@ importers:
         version: 4.4.3
     optionalDependencies:
       '@github/copilot-darwin-arm64':
-        specifier: 1.0.88
-        version: 1.0.88
+        specifier: 1.0.96
+        version: 1.0.96
       '@github/copilot-darwin-x64':
         specifier: 1.0.88
         version: 1.0.88
@@ -2684,8 +2684,8 @@ packages:
   '@floating-ui/utils@0.2.12':
     resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
 
-  '@github/copilot-darwin-arm64@1.0.88':
-    resolution: {integrity: sha512-gt52dl+ja+G88RjLuSec59fA8C9HNfdGxKwwqE7eAIJXZYSKwKvuMy4B79WlCtlpnH/QKbs5Z9VsU0BTxe3EAg==}
+  '@github/copilot-darwin-arm64@1.0.96':
+    resolution: {integrity: sha512-/U3PukFkQtH7JoTb3ZPV8ZlFJeS4o/B1Ae+rfyeXnhUvcTqI+NqmBgjVQLUk9y3RTYKBo2QQbGU4p1/UtqAiww==}
     cpu: [arm64]
     os: [darwin]
     hasBin: true
@@ -9285,7 +9285,7 @@ snapshots:
       - '@anthropic-ai/sdk'
       - '@modelcontextprotocol/sdk'
 
-  '@agentclientprotocol/codex-acp@1.6.2(patch_hash=ilkykmzaax6atpgtip6bxikv6i)':
+  '@agentclientprotocol/codex-acp@1.6.2(patch_hash=2iynuypg76nxmydiylgtffhr7e)':
     dependencies:
       '@agentclientprotocol/sdk': 1.4.0(zod@4.4.3)
       '@openai/codex': 0.160.0
@@ -10768,7 +10768,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@github/copilot-darwin-arm64@1.0.88':
+  '@github/copilot-darwin-arm64@1.0.96':
     optional: true
 
   '@github/copilot-darwin-x64@1.0.88':
